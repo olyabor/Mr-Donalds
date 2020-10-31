@@ -1,17 +1,21 @@
+import React from 'react';
 import './App.css';
 import { NavBar } from './Components/NavBar';
 import { Menu } from './Components/Menu';
 import { GlobalStyle } from './Components/GlobalStyle';
-import {  Banner } from './Components/Banner';
+import { ModalItem } from './Components/ModalItem';
 
 
 function App() {
+  
+const [openItem, setOpenItem] = React.useState(null);
+
   return (
     <>
       <GlobalStyle />
       <NavBar />
-      <Banner />
-      <Menu />
+      <Menu setOpenItem={setOpenItem}/>
+      <ModalItem openItem={openItem} setOpenItem={setOpenItem}/>
     </>
   );
 }
