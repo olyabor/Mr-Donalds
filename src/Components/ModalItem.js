@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ButtonCheckout } from './ButtonCheckout';
 
 const Overlay = styled.div`
   position: fixed;
@@ -26,10 +27,9 @@ const Banner = styled.div`
   background-image: url(${({img}) => img});
   background-size: cover;
   background-position: center;
-  margin-bottom: 20px;
 `;
 
-const Info = styled.div`
+const HeaderContent = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -44,25 +44,11 @@ const Info = styled.div`
   color: #000000;
 `;
 
-const BtnAdd = styled.button`
-  position: relative;
-  width: 250px;
-  height: 65px;
-  left: 175px;
-  top: 220px;
-  background: #299b01;
-  font-family: Roboto;
-  font-size: 21px;
-  line-height: 25px;
-  color: #ffffff;
-  border: transparent;
-  outline: none;
-  &:hover {
-    box-shadow: inset 0 0 50px 30px #207f02;
-  }
-  &:active {
-    outline: 3px solid #299b01;
-  }
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 250px);
 `;
 
 export const ModalItem = ({ openItem, setOpenItem }) => {
@@ -78,7 +64,8 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
     <Overlay id='overlay' onClick={closeModal}>
       <Modal>
         <Banner img={openItem.img} />
-        <Info>
+        <Content>
+        <HeaderContent>
           <p>{openItem.name}</p>
           <p>
             {openItem.price.toLocaleString('ru-RU', {
@@ -86,8 +73,9 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
               currency: 'RUB',
             })}
           </p>
-        </Info>
-        <BtnAdd>Добавить</BtnAdd>
+        </HeaderContent>
+        <ButtonCheckout>Добавить</ButtonCheckout>
+        </Content>
       </Modal>
     </Overlay>
   );
