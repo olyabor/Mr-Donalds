@@ -5,6 +5,8 @@ import { CountItem } from './CountItem';
 import { useCount } from '../Hooks/useCount';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
+import { Toppings } from './Toppings';
+import { useToppings } from '../Hooks/useTopping';
 
 const Overlay = styled.div`
   position: fixed;
@@ -39,7 +41,6 @@ const HeaderContent = styled.div`
   position: relative;
   width: 520px;
   height: 53px;
-  left: 37px;
   top: 20px;
 
   font-family: Pacifico;
@@ -51,7 +52,6 @@ const HeaderContent = styled.div`
 const TotalPriceItem = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 40px;
 `;
 
 const Content = styled.div`
@@ -59,11 +59,13 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: calc(100% - 250px);
+  padding: 0 40px;
 `;
 
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
   const counter = useCount();
+  const toppings = useToppings(openItem);
   
   const closeModal = (e) => {
     if(e.target.id === 'overlay') {
@@ -73,13 +75,15 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
   const order = {
     ...openItem,
-    count: counter.count
+    count: counter.count,
+    topping: toppings.toppings
   };
 
   const addToOrder = () => {
     setOrders([...orders, order]);
     setOpenItem(null);
-  }
+  };
+  // console.log(order.topping.filter(item => item.checked).map(item => item.name));
 
   return (
     <Overlay id='overlay' onClick={closeModal}>
@@ -93,6 +97,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
           </p>
         </HeaderContent>
         <CountItem {...counter}/>
+        {openItem.toppings && <Toppings {...toppings}/>}
         <TotalPriceItem>
           <span>Цена:</span>
           <span>{formatCurrency(totalPriceItems(order))}</span>
