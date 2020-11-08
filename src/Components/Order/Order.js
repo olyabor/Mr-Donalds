@@ -47,38 +47,58 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem }) => {
-
-  const deleteItem = index => {
+export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, logOut }) => {
+  const deleteItem = (index) => {
     const newOrders = orders.filter((item, i) => index !== i);
     setOrders(newOrders);
   };
 
-  const total = orders.reduce((result, order)=>totalPriceItems(order) + result, 0);
+  const total = orders.reduce(
+    (result, order) => totalPriceItems(order) + result,
+    0
+  );
 
-  const totalCounter = orders.reduce((result, order) => order.count + result, 0);
- 
+  const totalCounter = orders.reduce(
+    (result, order) => order.count + result,
+    0
+  );
+
   return (
     <OrderStyled>
       <OrderTitle>Ваш заказ</OrderTitle>
       <OrderContent>
-        {orders.length ? 
-        <OrderList>
-          {orders.map((order, index) => <OrderListItem 
-          key={index}
-          order={order}
-          deleteItem={deleteItem}
-          index={index}
-          setOpenItem={setOpenItem}/>)}
-        </OrderList> :
-        <EmptyList>Список заказов пуст</EmptyList>}
+        {orders.length ? (
+          <OrderList>
+            {orders.map((order, index) => (
+              <OrderListItem
+                key={index}
+                order={order}
+                deleteItem={deleteItem}
+                index={index}
+                setOpenItem={setOpenItem}
+              />
+            ))}
+          </OrderList>
+        ) : (
+          <EmptyList>Список заказов пуст</EmptyList>
+        )}
       </OrderContent>
       <Total>
         <span>Итого</span>
         <span>{totalCounter}</span>
         <TotalPrice>{formatCurrency(total)}</TotalPrice>
       </Total>
-      <ButtonCheckout>Оформить</ButtonCheckout>
+      <ButtonCheckout onClick={() => {authentication
+        ? orders.map((order, index) =>
+            console.log(
+              order.name, ' + ',
+              order.topping
+                .filter((item) => item.checked)
+                .map((item) => item.name)
+                .join(', ')
+            )
+          )
+        : logIn()}}>Оформить</ButtonCheckout>
     </OrderStyled>
   );
-}
+};
