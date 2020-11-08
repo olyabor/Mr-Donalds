@@ -4,7 +4,6 @@ import { ButtonCheckout } from '../Style/ButtonCheckout';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItems } from '../Functions/secondaryFunction';
 import { formatCurrency } from '../Functions/secondaryFunction';
-import { useOrders } from '../Hooks/useOrders';
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -48,12 +47,12 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-export const Order = ({ orders, setOrders }) => {
+export const Order = ({ orders, setOrders, setOpenItem }) => {
 
   const deleteItem = index => {
     const newOrders = orders.filter((item, i) => index !== i);
     setOrders(newOrders);
-  }
+  };
 
   const total = orders.reduce((result, order)=>totalPriceItems(order) + result, 0);
 
@@ -69,7 +68,8 @@ export const Order = ({ orders, setOrders }) => {
           key={index}
           order={order}
           deleteItem={deleteItem}
-          index={index}/>)}
+          index={index}
+          setOpenItem={setOpenItem}/>)}
         </OrderList> :
         <EmptyList>Список заказов пуст</EmptyList>}
       </OrderContent>
