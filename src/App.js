@@ -45,6 +45,6 @@ useTitle(openItem.openItem);
       {openItem.openItem && <ModalItem {...openItem} {...orders} />}
     </>
   );
-}
+};
 
 export default App;
